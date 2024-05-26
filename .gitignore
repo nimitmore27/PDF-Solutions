@@ -1,0 +1,7 @@
+env/
+__pycache__/
+testing/
+*.pdf
+*.docx
+*.doc
+PDF_Solutions.bat

@@ -1,0 +1,55 @@
+{% extends '_layout.html' %}
+{% set title = 'D2P Converter' %}
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+    <h2>Document &rarr; PDF</h2>
+    <form action="{{ url_for('convert_endpoint' ) }}" method="post" id="d2pform" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="d2pinp" class="form-label">Insert Document File (.doc, .docx) </label>
+            <input class="form-control" type="file" id="d2pinp" name="files" accept=".docx,.doc" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Convert2PDF</button>
+        <a role="button" class="btn btn-success hidden" download id="d2pdwbtn">Download</a>
+    </form>
+</div>
+<div class="container my-2">
+    <ol class="list-group list-group-numbered" id="uploaded_pdf_list">
+
+    </ol>
+</div>
+{% endblock %}
+{% block js %}
+
+<script>
+    const d2pform = document.getElementById('d2pform');
+    const d2pinp = document.getElementById('d2pinp');
+    const d2pdwbtn = document.getElementById('d2pdwbtn');
+    d2pinp.addEventListener('change', function (e) {
+        d2pdwbtn.classList.add('hidden')
+        loadItems(e);
+    });
+    d2pform.addEventListener('submit', function (e) {
+        e.preventDefault();
+        displayLoader(d2pform);
+        const formData = new FormData(d2pform);
+        fetch(d2pform.action, {
+            method: d2pform.method,
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                removeLoader(d2pform);
+                if (data.success) {
+                    d2pdwbtn.href = data.url;
+                    d2pdwbtn.classList.remove('hidden');
+                } else {
+                    alert('Error Occured');
+                }
+            });
+    });
+</script>
+{% endblock %}

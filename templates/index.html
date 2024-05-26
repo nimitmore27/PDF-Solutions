@@ -1,0 +1,36 @@
+{% extends '_layout.html' %}
+
+{% set title = 'Home' %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">D2P Converter</h5>
+                    <p class="card-text">Convert .doc .docx files to pdf.</p>
+                    <a href="{{ url_for('convert_endpoint' ) }}" class="card-link">Converter</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Document Merger</h5>
+                    <p class="card-text">Merge .doc .docx .pdf into .pdf</p>
+                    <a href="{{ url_for('merge_endpoint' ) }}" class="card-link">Merger</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

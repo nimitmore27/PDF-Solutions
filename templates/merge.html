@@ -1,0 +1,56 @@
+{% extends '_layout.html' %}
+{% set title = 'Documents Merger' %}
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<div class="container my-2">
+    <h2>[Documents...] &rarr; Merged_PDF</h2>
+    <form action="{{ url_for('merge_endpoint' ) }}" method="post" id="mergeform" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="mergerinp" class="form-label">Insert Files (.pdf, .doc, .docx) </label>
+            <input class="form-control" type="file" id="mergerinp" name="files" accept=".docx,.doc,.pdf" multiple
+                required>
+        </div>
+        <button type="submit" class="btn btn-primary">Merge All</button>
+        <a role="button" class="btn btn-success hidden" download id="mergedwbtn">Download</a>
+    </form>
+</div>
+<div class="container my-2">
+    <ol class="list-group list-group-numbered" id="uploaded_pdf_list">
+
+    </ol>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    const mergerinp = document.getElementById('mergerinp');
+    const mergeform = document.getElementById('mergeform');
+    const mergedwbtn = document.getElementById('mergedwbtn');
+    mergerinp.addEventListener('change', function (e) {
+        mergedwbtn.classList.add('hidden')
+        loadItems(e);
+    });
+    mergeform.addEventListener('submit', function (e) {
+        e.preventDefault();
+        displayLoader(mergeform)
+        const formData = new FormData(mergeform);
+        fetch(mergeform.action, {
+            method: mergeform.method,
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                removeLoader(mergeform)
+                if (data.success) {
+                    mergedwbtn.href = data.url;
+                    mergedwbtn.classList.remove('hidden');
+                } else {
+                    alert('Error Occured');
+                }
+            });
+    });
+</script>
+
+{% endblock %}

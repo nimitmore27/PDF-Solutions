@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLEAR</title>
+</head>
+<body>
+    
+</body>
+<script>
+    if(confirm('Are you sure you want to clear the memory?')){
+        fetch('/clear_memory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        }).then(response => {
+            if(response.status){
+                alert('Memory cleared successfully');
+                window.location.href = '/';
+            }else{
+                alert('Failed to clear memory');
+            }
+        })
+    }else{
+        alert('Memory not cleared');
+        window.location.href = '/';
+    }
+</script>
+</html>
